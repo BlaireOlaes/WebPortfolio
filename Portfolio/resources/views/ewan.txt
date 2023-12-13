@@ -1,0 +1,31 @@
+<!-- resources/views/tasks/index.blade.php -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+
+    <form method="POST" action="{{ route('tasks.store') }}">
+        @csrf
+        <label for="title">New Task:</label>
+        <input type="text" id="title" name="title" required>
+        <button type="submit">Add Task</button>
+    </form>
+
+    <ul>
+        @foreach($tasks as $task)
+            <li>
+                <input type="checkbox" {{ $task->completed ? 'checked' : '' }} onchange="this.form.submit()" />
+                {{ $task->title }}
+                <form method="POST" action="{{ route('tasks.update', $task) }}" style="display: none;">
+                    @csrf
+                    @method('PATCH')
+                </form>
+            </li>
+        @endforeach
+    </ul>
+</body>
+</html>
